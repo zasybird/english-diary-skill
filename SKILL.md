@@ -12,17 +12,11 @@ description: >
 
 # English Diary
 
-## User Profile (Template — customize for each user)
+## User Profile
 
-Replace the example below with the actual user's information:
-
-```
-- **Level**: [e.g., CET-6 equivalent / beginner / intermediate]
-- **Goal**: [e.g., Daily conversation, travel, workplace communication]
-- **Constraint**: [e.g., Needs bilingual explanations; avoid overly academic terms]
-```
-
-> 💡 The skill adapts its tone and explanation depth based on this profile.
+- **Level**: CET-6 equivalent (English I exam score: 60), 4 years without practice
+- **Goal**: Daily conversation, travel, workplace communication with international colleagues
+- **Constraint**: Needs bilingual explanations (Chinese + English); avoid overly academic or complex terminology
 
 ## Workflow
 
@@ -33,8 +27,6 @@ When this skill triggers (diary submission or English learning Q&A):
 1. **Switch model** to `deepseek/deepseek-reasoner` via `session_status` tool with `model=deepseek/deepseek-reasoner`
 2. **Confirm** to user: "已切换至 DeepSeek R1 推理模型进行英语学习"
 3. **Proceed** with diary review or Q&A
-
-> 💡 **模型适配说明**：默认使用 `deepseek/deepseek-reasoner`，如果你当前环境没有此模型，请在 SKILL.md 中将模型名替换为你可用的推理模型（如 `kimi/kimi-code`、`gpt-4` 等）。
 
 The R1 model stays active for all follow-up questions in this session until user explicitly says **"结束"** (or synonyms: "结束了"/"结束吧"/"切换回来"/"切回 kimi").
 
@@ -52,13 +44,13 @@ When user says "结束" or requests to switch back:
 
 When user submits a diary entry:
 
-1. **Read the diary** — treat each sentence as an independent unit of analysis
-2. **Sentence-by-sentence analysis** — for each sentence, evaluate:
+1. **Read the diary** - treat each sentence as an independent unit of analysis
+2. **Sentence-by-sentence analysis** - for each sentence, evaluate:
    - Grammar correctness (tense, subject-verb agreement, articles, prepositions)
    - Vocabulary choices (appropriateness, register, naturalness)
    - Expression style (idiomatic vs. Chinglish, tone)
-3. **Output format** — see `references/review-template.md`
-4. **Archive** — save the full review to Obsidian via `scripts/archive_review.py`
+3. **Output format** - see `references/review-template.md`
+4. **Archive** - save the full review to Obsidian via `scripts/archive_review.py`
 
 ### Phase 2: Vocabulary & Phrase Q&A
 
@@ -66,16 +58,14 @@ When user asks about a specific word or phrase from the review:
 
 1. **Explain in plain English** first, then provide Chinese translation
 2. **Provide examples** in contexts relevant to daily life, travel, and work
-3. **Note collocations** — what words commonly go with it
-4. **Archive** — append to the running vocabulary log in Obsidian
+3. **Note collocations** - what words commonly go with it
+4. **Archive** - append to the running vocabulary log in Obsidian
 
 ### Phase 3: Archive Management
 
-All content is archived to the user's Obsidian vault at `[YOUR_VAULT_PATH]/英语学习/`.
+All content is archived to the user's Obsidian vault at `/home/loopy/.openclaw/workspace-dev/obsidian-vault/英语学习/`.
 
 Use `scripts/archive_review.py` for diary reviews and `scripts/archive_vocab.py` for vocabulary entries.
-
-> 💡 Edit the `VAULT_BASE` variable in both scripts to point to your actual Obsidian vault path.
 
 ## Core Capabilities
 
@@ -89,21 +79,22 @@ For every sentence in the diary, use this exact structure:
 ### Sentence X
 **原文**: User's original sentence
 **Status**: ✅ / ⚠️ / ❌
-**错误**: [一行总结错误类型，如：短语、时态、冠词、名词单复数、流水句]
+**错误**: [一行总结错误类型,如:短语、时态、冠词、名词单复数、流水句]
 **正确**: *完整、简洁的正确句子。*
 **解释**:
-1. **错误类型**：错误点 → 正确点。简短说明原因。
-2. **错误类型**：错误点 → 正确点。简短说明原因。
-3. ...（有几个错误就列几个点）
+1. **错误类型**:错误点 → 正确点。简短说明原因。
+2. **错误类型**:错误点 → 正确点。简短说明原因。
+3. ...(有几个错误就列几个点)
 ```
 
-**Formatting Rules**：
-- **【正确】** 必须是一个完整的、可直接替换原句的句子，放在解释之前，让用户第一眼看到"这句话应该怎么说"。
-- **【错误】** 只用一行概括错误类型（如："短语、动词形式、名词单复数"），不要啰嗦。
-- **【解释】** 编号列出，每个点格式统一为：**错误类型**：错误 → 正确。原因（简短，1-2句话）。
-- **解释要聚焦这个错误本身**，不要额外扩展太多相关知识点。例如不要说"lately = 最近（用于否定句 perfect）"——除非这个错误就是关于 lately 的。
-- 句子有 3 个错误就列 3 个点，有 5 个就列 5 个，**不要合并成一句话**。
-- **Vocabulary 检查**融入解释中，不需要单独分块。如果某处用词不当，在解释里作为一条指出即可。
+**Formatting Rules**:
+- **【正确】** 必须是一个完整的、可直接替换原句的句子,放在解释之前,让用户第一眼看到"这句话应该怎么说"。
+- **【翻译】** 紧接在【正确】之后,用中文简洁翻译纠正后的句子,让用户确认意思是否对齐。
+- **【错误】** 只用一行概括错误类型(如:"短语、动词形式、名词单复数"),不要啰嗦。
+- **【解释】** 编号列出,每个点格式统一为:**错误类型**:错误 → 正确。原因(简短,1-2句话)。
+- **解释要聚焦这个错误本身**,不要额外扩展太多相关知识点。例如不要说"lately = 最近(用于否定句 perfect)"--除非这个错误就是关于 lately 的。
+- 句子有 3 个错误就列 3 个点,有 5 个就列 5 个,**不要合并成一句话**。
+- **Vocabulary 检查**融入解释中,不需要单独分块。如果某处用词不当,在解释里作为一条指出即可。
 
 **Example of good output**（对标优秀范例）：
 
@@ -113,16 +104,17 @@ For every sentence in the diary, use this exact structure:
 **Status**: ❌
 **错误**: 短语、动词形式、名词单复数
 **正确**: *To be honest, I haven't studied for a few days.*
+**翻译**: 说实话，我已经有好几天没学习了。
 **解释**:
 1. **短语**：Be honest → To be honest。固定搭配必须是 To be honest。
 2. **动词形式**：study → studied。现在完成时 haven't 后要用过去分词 studied，而不是原形 study。
-3. **名词单复数**：some day → a few days。"Some day" 是“某一天”（将来），这里需要“几天”，应为 a few days 或 several days。
+3. **名词单复数**：some day → a few days。"Some day" 是"某一天"（将来），这里需要"几天"，应为 a few days 或 several days。
 ```
 
-**Status Rules**：
-- 如果句子完全正确自然，标 ✅ 并简要确认哪里好（正向强化）。
-- 如果有小问题，标 ⚠️ 并温和建议改进。
-- 如果需要修改，标 ❌ 并按上述格式给出【正确】+【解释】。
+**Status Rules**:
+- 如果句子完全正确自然,标 ✅ 并简要确认哪里好(正向强化)。
+- 如果有小问题,标 ⚠️ 并温和建议改进。
+- 如果需要修改,标 ❌ 并按上述格式给出【正确】+【解释】。
 
 ### 2. Overall Summary + Progress Score
 
@@ -133,7 +125,7 @@ After sentence analysis, provide:
 - Strong points: X, Y, Z
 - Focus area for next time: [specific pattern to watch]
 
-📈 Progress Score (1–10 scale)
+📈 Progress Score (1-10 scale)
 ┌──────────────────────┬───────┬─────────────────────────────┐
 │ Dimension            │ Score │ Note                        │
 ├──────────────────────┼───────┼─────────────────────────────┤
@@ -146,19 +138,19 @@ After sentence analysis, provide:
 └──────────────────────┴───────┴─────────────────────────────┘
 
 📌 Today's Takeaways (auto-archived to vocab log)
-1. word/phrase — 中文意思 — 例句
+1. word/phrase - 中文意思 - 例句
 2. ...
 ```
 
 **Scoring Rules**:
 - Be consistent: if a 6/10 today means "noticeable errors but meaning clear", use the same standard next week.
-- Rate **generously but fairly**: 5 = 勉强能懂但错误多；7 = 有小错但基本流畅；9 = 接近母语者水平。
-- The TOTAL is not a simple average — it reflects the overall impression a native speaker would have reading the diary.
+- Rate **generously but fairly**: 5 = 勉强能懂但错误多;7 = 有小错但基本流畅;9 = 接近母语者水平。
+- The TOTAL is not a simple average - it reflects the overall impression a native speaker would have reading the diary.
 - Always include the score table in the archived markdown so the user can track progress over time.
 
 ### 3. Vocabulary Q&A
 
-When user asks "这个词什么意思？" or similar:
+When user asks "这个词什么意思?" or similar:
 
 ```
 🔍 word/phrase
@@ -183,7 +175,7 @@ Archive immediately to `obsidian-vault/英语学习/词汇积累.md`
 
 ## Resources
 
-- `references/review-template.md` — Full template for diary review output
-- `references/vocab-template.md` — Template for vocabulary Q&A output
-- `scripts/archive_review.py` — Script to save diary review to Obsidian
-- `scripts/archive_vocab.py` — Script to append vocabulary entry to Obsidian log
+- `references/review-template.md` - Full template for diary review output
+- `references/vocab-template.md` - Template for vocabulary Q&A output
+- `scripts/archive_review.py` - Script to save diary review to Obsidian
+- `scripts/archive_vocab.py` - Script to append vocabulary entry to Obsidian log

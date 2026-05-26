@@ -19,6 +19,7 @@ Use this exact structure when reviewing a user's English diary.
 **Status**: {{✅ / ⚠️ / ❌}}
 **错误**: {{一行总结错误类型，如：拼写混淆、时态、冠词、介词、流水句}}
 **正确**: {{*完整、简洁的正确句子*}}
+**翻译**: {{纠正后句子的中文翻译，让用户确认意思是否对齐}}
 **解释**:
 1. **{{Error type}}**：{{wrong}} → {{correct}}。{{short explanation}}
 2. **{{Error type}}**：{{wrong}} → {{correct}}。{{short explanation}}
