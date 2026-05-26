@@ -22,11 +22,16 @@ description: >
 
 ### Phase 0: Model Switch (Automatic)
 
+### Phase 0: Model Switch (Two-Step)
+
 When this skill triggers (diary submission or English learning Q&A):
 
-1. **Switch model** to `deepseek/deepseek-reasoner` via `session_status` tool with `model=deepseek/deepseek-reasoner`
-2. **Confirm** to user: "已切换至 DeepSeek R1 推理模型进行英语学习"
-3. **Proceed** with diary review or Q&A
+1. **Check current model** — if already on `deepseek/deepseek-reasoner`, proceed directly to Phase 1.
+2. **If not**, call `session_status` tool with `model=deepseek/deepseek-reasoner` to set the session override.
+3. **Reply to user**: "已切换至 DeepSeek R1 推理模型。请重新发送你的英语日记，我将用 R1 进行逐句批改。"
+4. **Wait for user to resend diary** — the next user turn will run under DeepSeek R1.
+
+> ⚠️ **技术说明**：`session_status` 设置的模型覆盖在当前回复生成中不生效（OpenClaw 架构限制），只对**下一轮用户消息**生效。因此必须分两步：先切换，等用户重发后再批改。
 
 The R1 model stays active for all follow-up questions in this session until user explicitly says **"结束"** (or synonyms: "结束了"/"结束吧"/"切换回来"/"切回 kimi").
 
