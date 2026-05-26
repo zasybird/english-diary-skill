@@ -34,6 +34,8 @@ When this skill triggers (diary submission or English learning Q&A):
 2. **Confirm** to user: "已切换至 DeepSeek R1 推理模型进行英语学习"
 3. **Proceed** with diary review or Q&A
 
+> 💡 **模型适配说明**：默认使用 `deepseek/deepseek-reasoner`，如果你当前环境没有此模型，请在 SKILL.md 中将模型名替换为你可用的推理模型（如 `kimi/kimi-code`、`gpt-4` 等）。
+
 The R1 model stays active for all follow-up questions in this session until user explicitly says **"结束"** (or synonyms: "结束了"/"结束吧"/"切换回来"/"切回 kimi").
 
 ### Phase 4: End Session (Manual)
