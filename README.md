@@ -1,159 +1,158 @@
 # English Diary Skill
 
-> 一个 [OpenClaw](https://github.com/openclaw/openclaw) Skill，帮助非英语母语者通过每日写英语日记，并批改、词汇追踪和进步评分来练习英文写作。
+> An [OpenClaw](https://github.com/openclaw/openclaw) skill for non-native English speakers to practice writing through daily diary correction, vocabulary tracking, and progress scoring.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 项目简介
+## What It Does
 
-这个 Skill 能把你的 AI 助手变成私人英语写作教练。提交你的每日日记，它会：
+This skill turns your AI assistant into a personal English writing coach. Submit your daily diary, and it will:
 
-- **逐句批改** — 语法、词汇、表达方式，一句一句来
-- **解释原因** — 每个错误附带中英双语编号详解
-- **量化评分** — 四个维度的统一评分标准，方便追踪长期进步
-- **自动归档** — 批改记录和词汇笔记自动存入你的 Obsidian 知识库
+- **Correct every sentence** — grammar, vocabulary, expressions, one sentence at a time
+- **Explain why** — each error gets a clear, numbered explanation in both Chinese and English
+- **Score your progress** — a consistent 4-dimension scoring rubric so you can track improvement over time
+- **Archive everything** — reviews and vocabulary are automatically saved to your Obsidian vault
 
-目标用户是需要提升英语口语、写作、表达的水平学习者，场景覆盖日常对话、旅行游历和职场沟通。
-
----
-
-## 工作流程
-
-```
-你提交日记  →  模型逐句分析  →  逐句反馈批改结果  →  自动归档到 Obsidian
-```
-
-1. **模型切换** — 自动切换到 `deepseek/deepseek-reasoner`（DeepSeek R1），利用其推理能力进行语法分析（也可根据你具有的推理模型自行替换）
-2. **逐句批改** — 每句话输出：原文、错误摘要、修正版、中文翻译、逐条错误编号详解
-3. **进步评分** — 四维评分表（语法准确性、词汇使用、流利自然度、连贯与结构），统一 1–10 分制
-4. **词汇问答** — 对批改中出现的任意单词或短语提问，获取释义、常见搭配、生活/旅行/工作场景例句和记忆技巧
-5. **自动归档** — 批改记录存为 `日记点评/YYYY-MM-DD.md`，词汇条目追加到 `词汇积累.md` 日志中
+It's designed for a CET-6 level learner who hasn't practiced in a while and wants to regain fluency for daily conversation, travel, and workplace communication.
 
 ---
 
-## 文件结构
+## How It Works
+
+```
+You write a diary  →  DeepSeek R1 analyzes it  →  Sentence-by-sentence review  →  Archived to Obsidian
+```
+
+1. **Model switch** — The skill automatically switches to `deepseek/deepseek-reasoner` (DeepSeek R1) for reasoning-heavy grammar analysis
+2. **Sentence-by-sentence review** — Each sentence gets: original text, error summary, corrected version, Chinese translation, and a numbered breakdown of every mistake
+3. **Progress scoring** — A 4-dimension table (Grammar, Vocabulary, Fluency, Coherence) with consistent 1–10 scoring
+4. **Vocabulary Q&A** — Ask about any word or phrase from the review and get definitions, collocations, examples in daily/travel/work contexts, and memory hooks
+5. **Auto-archiving** — Reviews are saved as `日记点评/YYYY-MM-DD.md`, vocabulary entries go to a running `词汇积累.md` log in your Obsidian vault
+
+---
+
+## File Structure
 
 ```
 english-diary-skill/
-├── SKILL.md                  # Skill 定义：工作流、规则、评分标准
-├── archive_review.py         # 将批改结果保存到 Obsidian
-├── archive_vocab.py          # 将词汇条目追加到 Obsidian 日志
-├── review-template.md        # 日记批改输出格式模板
-├── vocab-template.md         # 词汇问答输出格式模板
-├── README.md                 # 英文说明
-├── README.zh-CN.md           # 中文说明（本文件）
-└── LICENSE                   # MIT 开源协议
+├── SKILL.md                  # Skill definition: workflow, rules, scoring rubric
+├── archive_review.py         # Save diary reviews to Obsidian
+├── archive_vocab.py          # Append vocabulary entries to Obsidian logs
+├── review-template.md        # Template for diary review output format
+├── vocab-template.md         # Template for vocabulary Q&A output format
+└── README.md
 ```
 
 ---
 
-## 安装配置
+## Setup
 
-### 前置条件
+### Prerequisites
 
-- 已安装并配置好 [OpenClaw](https://github.com/openclaw/openclaw)
+- [OpenClaw](https://github.com/openclaw/openclaw) installed and configured
 - Python 3.8+
-- 一个 Obsidian 知识库（用于存放批改记录和词汇笔记）
+- An Obsidian vault (for archiving reviews and vocabulary)
 
-### 安装步骤
+### Installation
 
-1. **克隆仓库到 OpenClaw 的 skills 目录：**
+1. **Clone the repo into your OpenClaw skills directory:**
 
    ```bash
    git clone https://github.com/zasybird/english-diary-skill.git ~/.openclaw/skills/english-diary
    ```
 
-2. **设置 Obsidian 知识库路径**（如果默认路径不适合你）：
+2. **Set your Obsidian vault path** (if different from the default):
 
    ```bash
    export OBSIDIAN_VAULT="/path/to/your/obsidian-vault"
    ```
 
-   或者直接修改 `archive_review.py` 和 `archive_vocab.py` 中的 `VAULT_BASE` 变量。
+   Or update the `VAULT_BASE` variable in `archive_review.py` and `archive_vocab.py`.
 
-3. **确保归档脚本可执行：**
+3. **Ensure the archive scripts are executable:**
 
    ```bash
    chmod +x archive_review.py archive_vocab.py
    ```
 
-4. **验证安装是否成功：**
+4. **Verify the setup:**
 
    ```bash
-   python3 archive_review.py --date 2026-01-01 --content "测试归档"
+   python3 archive_review.py --date 2026-01-01 --content "Test review"
    ```
 
-   如果一切正常，你会在 `{OBSIDIAN_VAULT}/英语学习/日记点评/2026-01-01.md` 看到刚创建的文件。
+   You should see the file appear at `{OBSIDIAN_VAULT}/英语学习/日记点评/2026-01-01.md`.
 
 ---
 
-## 使用方法
+## Usage
 
-### 写日记
+### Writing a Diary
 
-直接把英文日记贴到聊天窗口。Skill 会自动：
+Just paste your English diary into the chat. The skill will:
 
-1. 切换到 DeepSeek R1 进行分析
-2. 返回逐句批改结果
-3. 给出总体评价和进步评分
-4. 将批改记录归档到你的 Obsidian 知识库
+1. Switch to DeepSeek R1 for analysis
+2. Return a full sentence-by-sentence review
+3. Give you an overall assessment and progress score
+4. Archive the review to your Obsidian vault
 
 ```
 Today I went to the park with my friend. The weather was very good and we saw many beautiful flower. We decide to come back next weekend.
 ```
 
-### 提问词汇
+### Asking About Vocabulary
 
-批改结束后，对任意单词或表达方式提问：
+After a review, ask about any word or expression:
 
-> "collocation 是什么意思？"
+> "What does 'collocation' mean?"
 
-你会得到双语解释、常见搭配、场景例句和记忆技巧——全部自动归档到你的词汇积累日志。
+You'll get a bilingual explanation with examples, common word partners, and a memory hook — all archived to your vocabulary log.
 
-### 结束会话
+### Ending a Session
 
-说 **"结束"** 即可切换回默认模型，恢复正常对话。
+Say **"结束"** to switch back to the default model and resume normal conversation.
 
 ---
 
-## 评分标准
+## Scoring Rubric
 
-批改使用统一的四维评分体系：
+Reviews use a consistent 4-dimension scoring system:
 
-| 维度 | 衡量内容 |
+| Dimension | What It Measures |
 |---|---|
-| **语法准确性**（1–10） | 时态、冠词、介词、主谓一致 |
-| **词汇使用**（1–10） | 用词准确度、搭配、词汇丰富度 |
-| **流利自然度**（1–10） | 表达是否自然地道、中式英语检测 |
-| **连贯与结构**（1–10） | 叙事逻辑、段落衔接、内容完整度 |
+| **Grammar Accuracy** (1–10) | Tense, articles, prepositions, subject-verb agreement |
+| **Vocabulary Usage** (1–10) | Word choice accuracy, collocations, range |
+| **Fluency & Naturalness** (1–10) | How natural it sounds, Chinglish detection |
+| **Coherence & Structure** (1–10) | Narrative logic, paragraph flow, completeness |
 
-| 分数 | 含义 |
+| Score | Meaning |
 |---|---|
-| 5 | 勉强可懂，错误较多 |
-| 6–7 | 有小错但意思清晰 |
-| 8 | 极少错误，接近地道 |
-| 9–10 | 接近母语水平 |
+| 5 | Barely understandable, many errors |
+| 6–7 | Minor errors but meaning is clear |
+| 8 | Very few errors, close to natural |
+| 9–10 | Near-native fluency |
 
 ---
 
-## 个性化配置
+## Customization
 
-本 Skill 默认配置了 **已放下英语 4 年的 CET-6 水平学习者**。如需调整：
+This skill is tuned for a **CET-6 level learner who hasn't practiced in 4 years**. To adapt it for yourself:
 
-1. 编辑 `SKILL.md` 中的 **User Profile** 部分，更新自己的英语水平、学习目标和约束条件
-2. 修改「评分规则」章节中的标准，收紧或放宽评分尺度
-3. 在两个 Python 脚本中改 `VAULT_BASE` 为你自己的 Obsidian 路径
-
----
-
-## 开源协议
-
-MIT — 详见 [LICENSE](LICENSE) 文件。
+1. Edit the **User Profile** section in `SKILL.md` — update your English level, goals, and constraints
+2. Adjust the **scoring standards** in the "Scoring Rules" section if you want stricter or more lenient grading
+3. Change `VAULT_BASE` in both Python scripts to match your own Obsidian vault path
 
 ---
 
-## 致谢
+## License
 
-基于 [OpenClaw](https://github.com/openclaw/openclaw) 构建，分析引擎由 [DeepSeek R1](https://deepseek.com) 驱动。
+MIT — see [LICENSE](LICENSE) for details.
+
+---
+
+## Credits
+
+Built with [OpenClaw](https://github.com/openclaw/openclaw) and [DeepSeek R1](https://deepseek.com).
+
