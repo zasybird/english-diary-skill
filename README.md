@@ -1,6 +1,6 @@
 # English Diary Skill
 
-> 一个 [OpenClaw](https://github.com/openclaw/openclaw) Skill，帮助非英语母语者通过每日日记批改、词汇追踪和进步评分来练习英文写作。
+> 一个 [OpenClaw](https://github.com/openclaw/openclaw) Skill，帮助非英语母语者通过每日英语日记、日记批改、词汇追踪和进步评分来练习英文写作。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -95,7 +95,7 @@ english-diary-skill/
 
 直接把英文日记贴到聊天窗口。Skill 会自动：
 
-1. 切换到 DeepSeek R1 进行分析
+1. 切换到 DeepSeek R1 进行分析（可自行选择已有模型）
 2. 返回逐句批改结果
 3. 给出总体评价和进步评分
 4. 将批改记录归档到你的 Obsidian 知识库
