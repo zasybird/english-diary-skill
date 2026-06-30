@@ -42,8 +42,8 @@ english-diary-skill/
 ├── archive_vocab.py          # 将词汇条目追加到 Obsidian 日志
 ├── review-template.md        # 日记批改输出格式模板
 ├── vocab-template.md         # 词汇问答输出格式模板
-├── README.md                 # 英文说明
-├── README.zh-CN.md           # 中文说明（本文件）
+├── README_EN.md                 # 英文说明
+├── README.md           # 中文说明（本文件）
 └── LICENSE                   # MIT 开源协议
 ```
 
@@ -54,7 +54,6 @@ english-diary-skill/
 ### 前置条件
 
 - 已安装并配置好 [OpenClaw](https://github.com/openclaw/openclaw)
-- Python 3.8+
 - 一个 Obsidian 知识库（用于存放批改记录和词汇笔记）
 
 ### 安装步骤
